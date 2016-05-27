@@ -30,6 +30,7 @@ class ActionButtonsViewController: NSViewController {
        but we have to keep our reference to put them back later */
     @IBOutlet var watchHDButton: NSButton!
     @IBOutlet var watchButton: NSButton!
+    @IBOutlet var qualitySelector: NSPopUpButton!
     @IBOutlet var slidesButton: NSButton!
     @IBOutlet var progressButton: NSButton!
     
@@ -44,6 +45,9 @@ class ActionButtonsViewController: NSViewController {
         }
         
         noSession()
+        
+        // Adds quality selector
+        stackView.addView(qualitySelector, inGravity: .Top)
         
         if let session = session {
             setSessionCanBeWatched(true)
@@ -64,19 +68,21 @@ class ActionButtonsViewController: NSViewController {
     
     private func setSessionCanBeWatched(can: Bool) {
         if can {
-            stackView.addView(watchButton, inGravity: .Top)
+            qualitySelector.addItemWithTitle("Standard")
         } else {
-            if watchButton.superview != nil {
-                watchButton.removeFromSuperviewWithoutNeedingDisplay()
+            if qualitySelector.superview != nil {
+//                qualitySelector.removeItemWithTitle("Standard")
+                print("Session can't be watched")
             }
         }
     }
     private func setSessionCanBeWatchedInHD(can: Bool) {
         if can {
-            stackView.addView(watchHDButton, inGravity: .Top)
+            qualitySelector.addItemWithTitle("HD")
         } else {
-            if watchHDButton.superview != nil {
-                watchHDButton.removeFromSuperviewWithoutNeedingDisplay()
+            if qualitySelector.superview != nil {
+//                qualitySelector.removeItemWithTitle("HD")
+                print("HD Session can't be watched")
             }
         }
     }
@@ -114,14 +120,19 @@ class ActionButtonsViewController: NSViewController {
         }
     }
     
-    @IBAction func watchHD(sender: NSButton) {
-        watchHDVideoCallback()
-        afterCallback()
+    @IBAction func qualitySelected(sender: NSPopUpButton) {
+        if (sender.selectedTag() == 0) {
+            watchVideoCallback()
+            afterCallback()
+        } else if (sender.selectedTag() == 1) {
+            watchHDVideoCallback()
+            afterCallback()
+        } else {
+            print("ERROR!")
+        }
+        
     }
-    @IBAction func watch(sender: NSButton) {
-        watchVideoCallback()
-        afterCallback()
-    }
+    
     @IBAction func watchSlides(sender: NSButton) {
         showSlidesCallback()
         afterCallback()

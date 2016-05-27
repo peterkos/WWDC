@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="10116"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="10117"/>
     </dependencies>
     <scenes>
         <!--Application-->
@@ -788,28 +788,19 @@ CA
                             <stackView orientation="horizontal" alignment="centerY" horizontalHuggingPriority="249" verticalHuggingPriority="249" translatesAutoresizingMaskIntoConstraints="NO" id="NDa-qd-DsL">
                                 <rect key="frame" x="20" y="182" width="519" height="22"/>
                                 <beginningViews>
-                                    <button verticalHuggingPriority="50" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KY0-ql-QWs">
-                                        <rect key="frame" x="-6" y="-7" width="140" height="33"/>
-                                        <buttonCell key="cell" type="push" title="Watch HD Video" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="D3d-bZ-Zck">
-                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                            <font key="font" metaFont="system"/>
-                                        </buttonCell>
+                                    <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TGb-vS-Ux1">
+                                        <rect key="frame" x="-2" y="-2" width="37" height="26"/>
+                                        <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="rmS-pI-6mV">
+                                            <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="menu"/>
+                                            <menu key="menu" id="Pxb-8G-Bug"/>
+                                        </popUpButtonCell>
                                         <connections>
-                                            <action selector="watchHD:" target="1s0-2L-R2i" id="xqm-Kv-PmK"/>
+                                            <action selector="qualitySelected:" target="1s0-2L-R2i" id="70s-lU-M88"/>
                                         </connections>
-                                    </button>
-                                    <button verticalHuggingPriority="50" fixedFrame="YES" tag="1" translatesAutoresizingMaskIntoConstraints="NO" id="COw-ui-l2a">
-                                        <rect key="frame" x="130" y="-7" width="117" height="33"/>
-                                        <buttonCell key="cell" type="push" title="Watch Video" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Xjs-Oy-GhI">
-                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                            <font key="font" metaFont="system"/>
-                                        </buttonCell>
-                                        <connections>
-                                            <action selector="watch:" target="1s0-2L-R2i" id="d1x-9M-a2C"/>
-                                        </connections>
-                                    </button>
+                                    </popUpButton>
                                     <button verticalHuggingPriority="50" fixedFrame="YES" tag="2" translatesAutoresizingMaskIntoConstraints="NO" id="Ff7-FM-rkW">
-                                        <rect key="frame" x="243" y="-7" width="110" height="33"/>
+                                        <rect key="frame" x="34" y="-7" width="110" height="33"/>
                                         <buttonCell key="cell" type="push" title="View Slides" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="UpZ-Ii-Qdp">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
@@ -819,7 +810,7 @@ CA
                                         </connections>
                                     </button>
                                     <button verticalHuggingPriority="50" fixedFrame="YES" tag="3" translatesAutoresizingMaskIntoConstraints="NO" id="Zfu-UV-fL8">
-                                        <rect key="frame" x="349" y="-7" width="143" height="33"/>
+                                        <rect key="frame" x="140" y="-7" width="143" height="33"/>
                                         <buttonCell key="cell" type="push" title="Mark as watched" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="pEg-S2-YVS">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
@@ -834,12 +825,10 @@ CA
                                 </constraints>
                                 <visibilityPriorities>
                                     <integer value="1000"/>
-                                    <integer value="1000"/>
                                     <real value="500"/>
                                     <real value="250"/>
                                 </visibilityPriorities>
                                 <customSpacing>
-                                    <real value="3.4028234663852886e+38"/>
                                     <real value="3.4028234663852886e+38"/>
                                     <real value="3.4028234663852886e+38"/>
                                     <real value="3.4028234663852886e+38"/>
@@ -884,10 +873,9 @@ CA
                 <customObject id="1s0-2L-R2i" customClass="ActionButtonsViewController" customModule="WWDC" customModuleProvider="target">
                     <connections>
                         <outlet property="progressButton" destination="Zfu-UV-fL8" id="Hca-lm-RsH"/>
+                        <outlet property="qualitySelector" destination="TGb-vS-Ux1" id="rgO-7d-Ncm"/>
                         <outlet property="slidesButton" destination="Ff7-FM-rkW" id="hfa-nz-gFw"/>
                         <outlet property="view" destination="NDa-qd-DsL" id="omw-Dt-wTd"/>
-                        <outlet property="watchButton" destination="COw-ui-l2a" id="p4q-Gw-aq7"/>
-                        <outlet property="watchHDButton" destination="KY0-ql-QWs" id="gTk-7D-gVG"/>
                     </connections>
                 </customObject>
             </objects>
