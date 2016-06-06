@@ -7,6 +7,8 @@
 //
 
 import Cocoa
+import AVKit
+import AVFoundation
 
 class VideoDetailsViewController: NSViewController {
     
@@ -40,6 +42,8 @@ class VideoDetailsViewController: NSViewController {
     @IBOutlet weak var descriptionLabel: NSTextField!
     @IBOutlet weak var downloadController: DownloadProgressViewController!
     @IBOutlet weak var actionButtonsController: ActionButtonsViewController!
+    @IBOutlet weak var videoPlayer: AVPlayerView!
+    
     
     private func updateUI() {
         if multipleSelection {
@@ -51,13 +55,14 @@ class VideoDetailsViewController: NSViewController {
         downloadController.view.hidden = false
         
         actionButtonsController.session = session
-        setupActionCallbacks()
+//        setupActionCallbacks()
         
         if let session = self.session {
             titleLabel.stringValue = session.title
             subtitleLabel.stringValue = "\(session.track) | Session \(session.id)"
             descriptionLabel.stringValue = session.summary
             descriptionLabel.hidden = false
+            startVideo() 
             
             downloadController.session = session
             downloadController.downloadFinishedCallback = { [unowned self] in
@@ -73,6 +78,11 @@ class VideoDetailsViewController: NSViewController {
         setupTranscriptResultsViewIfNeeded()
         updateTranscriptsViewController()
     }
+    
+    private func startVideo() {
+        setupActionCallbacks()
+    }
+    
     
     private func setupTranscriptResultsViewIfNeeded() {
         guard transcriptSearchResultsVC == nil else { return }
@@ -171,10 +181,16 @@ class VideoDetailsViewController: NSViewController {
     }
     
     private func doWatchVideo(sender: AnyObject?, url: String, startTime: Double?) {
-        let playerWindowController = VideoWindowController(session: session!, videoURL: url, startTime: startTime)
-        playerWindowController.showWindow(sender)
-        followWindowLifecycle(playerWindowController.window)
-        videoControllers.append(playerWindowController)
+        videoPlayer.player = AVPlayer(URL: NSURL(string: url)!)
+        videoPlayer.player?.seekToTime(CMTimeMakeWithSeconds(startTime ?? 0, 6000), toleranceBefore: kCMTimeZero, toleranceAfter: kCMTimeZero)
+        videoPlayer.player?.play()
+        videoPlayer.controlsStyle = .Floating
+        videoPlayer.showsFullScreenToggleButton = true
+        print(url)
+    }
+    
+    func unloadVideoDueToEventDeselection() {
+//        videoPlayer.player?.stop
     }
     
     private func followWindowLifecycle(window: NSWindow!) {

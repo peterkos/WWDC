@@ -28,11 +28,12 @@ class ActionButtonsViewController: NSViewController {
     
     /* these outlets are not weak because we will be removing the buttons from the view
        but we have to keep our reference to put them back later */
-    @IBOutlet var watchHDButton: NSButton!
-    @IBOutlet var watchButton: NSButton!
-    @IBOutlet var qualitySelector: NSPopUpButton!
     @IBOutlet var slidesButton: NSButton!
     @IBOutlet var progressButton: NSButton!
+    
+    // Quality selector + label are in their own stack
+    @IBOutlet var qualitySelector: NSPopUpButton!
+    @IBOutlet weak var qualityStack: NSStackView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,9 +46,6 @@ class ActionButtonsViewController: NSViewController {
         }
         
         noSession()
-        
-        // Adds quality selector
-        stackView.addView(qualitySelector, inGravity: .Top)
         
         if let session = session {
             setSessionCanBeWatched(true)
@@ -67,23 +65,19 @@ class ActionButtonsViewController: NSViewController {
     }
     
     private func setSessionCanBeWatched(can: Bool) {
-        if can {
+        if can && qualityStack.superview === self.view {
             qualitySelector.addItemWithTitle("Standard")
-        } else {
-            if qualitySelector.superview != nil {
-//                qualitySelector.removeItemWithTitle("Standard")
-                print("Session can't be watched")
-            }
+        } else if can {
+            qualityStack.addView(qualitySelector, inGravity: .Top)
+            qualitySelector.addItemWithTitle("Standard")
         }
     }
     private func setSessionCanBeWatchedInHD(can: Bool) {
-        if can {
+        if can && qualityStack.superview === self.view {
             qualitySelector.addItemWithTitle("HD")
-        } else {
-            if qualitySelector.superview != nil {
-//                qualitySelector.removeItemWithTitle("HD")
-                print("HD Session can't be watched")
-            }
+        } else if can {
+            qualityStack.addView(qualitySelector, inGravity: .Top)
+            qualitySelector.addItemWithTitle("HD")
         }
     }
     private func setSessionHasSlides(has: Bool) {
@@ -121,10 +115,10 @@ class ActionButtonsViewController: NSViewController {
     }
     
     @IBAction func qualitySelected(sender: NSPopUpButton) {
-        if (sender.selectedTag() == 0) {
+        if (sender.indexOfSelectedItem == 0) {
             watchVideoCallback()
             afterCallback()
-        } else if (sender.selectedTag() == 1) {
+        } else if (sender.indexOfSelectedItem == 1) {
             watchHDVideoCallback()
             afterCallback()
         } else {
